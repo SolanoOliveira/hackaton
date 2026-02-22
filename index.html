@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agente Cultural Manaus</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#070b16;
+      --bg1:#0b1430;
+      --card:#0f1b36cc;
+      --border:#223055;
+      --text:#eaf1ff;
+      --muted:#a6b4d8;
+      --accent:#7c5cff;
+      --accent2:#22c55e;
+      --shadow: 0 18px 55px rgba(0,0,0,.38);
+    }
+    body{
+      background:
+        radial-gradient(1100px 600px at 10% 8%, rgba(124,92,255,.30), transparent 60%),
+        radial-gradient(900px 600px at 90% 15%, rgba(34,197,94,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color:var(--text);
+      min-height:100vh;
+    }
+    .glass{
+      background: var(--card);
+      border:1px solid var(--border);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+    .pill{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      border-radius: 999px;
+      padding:.18rem .6rem;
+      font-size:.78rem;
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+    }
+    .muted{ color: var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
+
+    .btn-accent{
+      background: linear-gradient(135deg, var(--accent), #4f46e5);
+      border:0;
+      color:white;
+      box-shadow: 0 10px 24px rgba(124,92,255,.22);
+    }
+    .btn-accent:hover{ filter: brightness(1.05); }
+
+    .btn-soft{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.03);
+      color:var(--text);
+    }
+    .btn-soft:hover{
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.24);
+      color:var(--text);
+    }
+
+    .form-control, .form-select{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+      color: var(--text);
+    }
+    .form-control::placeholder{ color: rgba(234,241,255,.55); }
+    .form-control:focus, .form-select:focus{
+      border-color: rgba(124,92,255,.55);
+      box-shadow: 0 0 0 .25rem rgba(124,92,255,.16);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+    }
+
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      margin: 1rem 0;
+    }
+
+    /* Navbar */
+    .navbar{
+      border-bottom:1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      background: rgba(10,16,34,.55) !important;
+    }
+
+    .offcanvas{
+      background: rgba(12,18,38,.98);
+      color: var(--text);
+    }
+    .offcanvas .list-group-item{
+      background: rgba(255,255,255,.03);
+      border-color: rgba(255,255,255,.10);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .offcanvas .list-group-item:hover{
+      background: rgba(255,255,255,.06);
+    }
+
+    /* Chips */
+    .chip{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding:.35rem .7rem;
+      font-size:.85rem;
+      cursor:pointer;
+      transition: .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .chip:hover{ background: rgba(255,255,255,.07); }
+
+    /* Chat */
+    .chat{
+      height: 64vh;
+      min-height: 460px;
+      overflow:auto;
+      padding: 1rem;
+      scroll-behavior:smooth;
+    }
+    .msg{
+      display:flex;
+      gap:.75rem;
+      margin-bottom: .9rem;
+    }
+    .avatar{
+      width:38px;height:38px;border-radius:14px;
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+      font-weight:800;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+    }
+    .avatar.agent{
+      background: linear-gradient(135deg, rgba(124,92,255,.25), rgba(34,197,94,.18));
+      border-color: rgba(124,92,255,.35);
+    }
+
+    .bubble{
+      max-width: 920px;
+      padding: .85rem .95rem;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.035);
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+    .bubble.user{
+      background: rgba(124,92,255,.10);
+      border-color: rgba(124,92,255,.28);
+    }
+    .meta{
+      margin-top:.25rem;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    .typing{ display:inline-flex; gap:6px; align-items:center; }
+    .dot{
+      width:6px;height:6px;border-radius:999px;
+      background: rgba(234,241,255,.65);
+      animation: bounce 1s infinite;
+    }
+    .dot:nth-child(2){ animation-delay:.15s; opacity:.85;}
+    .dot:nth-child(3){ animation-delay:.30s; opacity:.70;}
+    @keyframes bounce{
+      0%, 80%, 100%{ transform: translateY(0); }
+      40%{ transform: translateY(-5px); }
+    }
+
+    /* Events feed (cards grid) */
+    .events-grid{
+      display:grid;
+      gap: 14px;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    @media (min-width: 768px){
+      .events-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1200px){
+      .events-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1400px){
+      .events-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    .event-card{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      overflow:hidden;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      cursor:pointer;
+      height: 100%;
+      display:flex;
+      flex-direction:column;
+    }
+    .event-card:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.045);
+      border-color: rgba(124,92,255,.28);
+    }
+    .event-cover{
+      width:100%;
+      height: 140px;
+      background: rgba(255,255,255,.04);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+    .event-cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .event-body{
+      padding: 12px 12px 10px;
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      flex:1;
+    }
+    .event-title{
+      font-weight: 800;
+      line-height: 1.2;
+      margin:0;
+      font-size: 1rem;
+    }
+
+    .logo-img {
+      height: 48px;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+    .logo-img:hover {
+      transform: scale(1.05);
+    }
+
+    .event-sub{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 6px;
+      align-items:center;
+    }
+    .event-desc{
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.35;
+      margin:0;
+      flex:1;
+    }
+    .event-footer{
+      padding: 10px 12px 12px;
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .event-actions{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+    .mini{
+      font-size:.84rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark sticky-top">
+    <div class="container">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-soft me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas">
+          ☰
+        </button>
+        <div class="d-flex align-items-center">
+          <img src="images/logo.png" alt="Agente Cultural Manaus" class="logo-img me-3">
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <span id="apiStatus" class="pill">API: ?</span>
+        <button class="btn btn-accent btn-sm" data-bs-toggle="modal" data-bs-target="#submitModal">
+          + Submeter evento
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Offcanvas menu -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="muted small mb-2">Navegação</div>
+      <div class="list-group mb-3">
+        <div class="list-group-item" data-nav="agent">Agente</div>
+        <div class="list-group-item" data-nav="events">Eventos</div>
+        <div class="list-group-item" data-bs-toggle="modal" data-bs-target="#submitModal">Submeter evento</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="muted small">Atalhos</div>
+      <div class="d-flex flex-wrap gap-2 mt-2">
+        <span class="chip" data-q="quais eventos tem em fevereiro?">fevereiro</span>
+        <span class="chip" data-q="eventos de rap e trap">rap/trap</span>
+        <span class="chip" data-q="eventos de dança contemporânea">dança</span>
+        <span class="chip" data-q="eventos no Largo São Sebastião">largo</span>
+        <span class="chip" data-q="eventos na Ponta Negra">ponta negra</span>
+        <span class="chip" data-q="eventos com libras">libras</span>
+        <span class="chip" data-q="eventos acessíveis">acessíveis</span>
+      </div>
+
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <div class="container py-4">
+    <!-- ===================== PAGE: AGENT (HOME) ===================== -->
+    <section id="pageAgent">
+      <div class="glass p-3 p-lg-4 mb-3">
+        <div class="row g-2 align-items-end">
+          <div class="col-12 col-lg-3">
+            <label class="form-label muted mb-1">Mês</label>
+            <select id="monthSelect" class="form-select">
+              <option value="">Qualquer</option>
+              <option value="janeiro">Janeiro</option>
+              <option value="fevereiro">Fevereiro</option>
+              <option value="março">Março</option>
+              <option value="abril">Abril</option>
+              <option value="maio">Maio</option>
+              <option value="junho">Junho</option>
+              <option value="julho">Julho</option>
+              <option value="agosto">Agosto</option>
+              <option value="setembro">Setembro</option>
+              <option value="outubro">Outubro</option>
+              <option value="novembro">Novembro</option>
+              <option value="dezembro">Dezembro</option>
+            </select>
+          </div>
+          <div class="col-12 col-lg-3">
+            <label class="form-label muted mb-1">Categoria</label>
+            <select id="typeSelect" class="form-select">
+              <option value="">Qualquer</option>
+              <option value="música">Música</option>
+              <option value="teatro">Teatro</option>
+              <option value="dança">Dança</option>
+              <option value="poesia">Poesia</option>
+              <option value="performance">Performance</option>
+              <option value="cultura urbana">Cultura urbana</option>
+            </select>
+          </div>
+          <div class="col-12 col-lg-6">
+            <label class="form-label muted mb-1">Sugestões</label>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="chip" data-q="vou pra Manaus em fevereiro, tem algum evento?">fevereiro</span>
+              <span class="chip" data-q="eventos de teatro">teatro</span>
+              <span class="chip" data-q="eventos no Teatro da Instalação">Teatro da Instalação</span>
+              <span class="chip" data-q="eventos no Largo São Sebastião">Largo</span>
+              <span class="chip" data-q="eventos de rap e trap">rap/trap</span>
+              <span class="chip" data-q="eventos com libras">libras</span>
+              <span class="chip" data-q="eventos acessíveis">acessíveis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass">
+        <div class="d-flex align-items-center justify-content-between p-3 p-lg-4 pb-2">
+          <div>
+            <div class="fw-semibold">Agente Cultural</div>
+            <div class="muted small">Tela focada no chat/LLM • <span class="mono">Ctrl + Enter</span> envia</div>
+          </div>
+          <span id="statusPill" class="pill">Pronto</span>
+        </div>
+
+        <div id="chat" class="chat"></div>
+
+        <div class="p-3 p-lg-4 pt-2">
+          <div id="errorBlock" class="alert alert-danger d-none" role="alert"></div>
+
+          <div class="input-group">
+            <textarea id="queryInput" class="form-control" rows="2" placeholder="Ex.: vou pra Manaus em fevereiro… tem evento?"></textarea>
+            <button id="btnAsk" class="btn btn-accent">
+              <span id="btnAskText">Enviar</span>
+            </button>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between mt-2">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="chip" data-q="quais eventos tem em fevereiro?">fevereiro</span>
+              <span class="chip" data-q="eventos no Largo São Sebastião">largo</span>
+              <span class="chip" data-q="eventos de dança contemporânea">dança</span>
+              <span class="chip" data-q="eventos com libras">libras</span>
+              <span class="chip" data-q="eventos acessíveis">acessíveis</span>
+            </div>
+            <div class="d-flex gap-2">
+              <button id="btnCopyLast" class="btn btn-soft btn-sm">Copiar última</button>
+              <button id="btnClearChat" class="btn btn-soft btn-sm">Limpar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PAGE: EVENTS (FEED GRID) ===================== -->
+    <section id="pageEvents" class="d-none">
+      <div class="glass p-3 p-lg-4">
+        <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-2">
+          <div>
+            <div class="fw-semibold">Eventos (Feed)</div>
+            <div class="muted small">Cards em colunas (vários por linha). Clique em um card para perguntar no agente.</div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-soft" id="btnExportJson">Exportar JSON</button>
+            <button class="btn btn-soft" id="btnClearSubmitted">Limpar submetidos</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row g-2 align-items-end">
+          <div class="col-12 col-lg-6">
+            <label class="form-label muted mb-1">Buscar</label>
+            <input id="eventsSearch" class="form-control" placeholder="Rap, fevereiro, Ponta Negra, teatro, libras, acessível..." />
+          </div>
+
+          <div class="col-6 col-lg-2">
+            <label class="form-label muted mb-1">Mês</label>
+            <select id="eventsMonth" class="form-select">
+              <option value="">Qualquer</option>
+              <option value="01">Jan</option>
+              <option value="02">Fev</option>
+              <option value="03">Mar</option>
+              <option value="04">Abr</option>
+              <option value="05">Mai</option>
+              <option value="06">Jun</option>
+              <option value="07">Jul</option>
+              <option value="08">Ago</option>
+              <option value="09">Set</option>
+              <option value="10">Out</option>
+              <option value="11">Nov</option>
+              <option value="12">Dez</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-lg-2">
+            <label class="form-label muted mb-1">Categoria</label>
+            <select id="eventsType" class="form-select">
+              <option value="">Qualquer</option>
+              <option value="Música">Música</option>
+              <option value="Teatro">Teatro</option>
+              <option value="Dança">Dança</option>
+              <option value="Poesia">Poesia</option>
+              <option value="Performance">Performance</option>
+              <option value="Cultura urbana">Cultura urbana</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-lg-2">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="muted small">Total</div>
+              <span id="eventsCount" class="pill">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div id="eventsGrid" class="events-grid"></div>
+
+        <div id="eventsEmpty" class="muted mt-3">
+          Sem eventos ainda. Submeta um evento no menu ☰.
+        </div>
+      </div>
+    </section>
+
+    <div class="text-center muted small mt-4">
+      Single-file • Bootstrap 5 • Submissão salva em <span class="mono">localStorage</span> + enviada ao backend (RAG)
+    </div>
+  </div>
+
+  <!-- Modal: Submit event -->
+  <div class="modal fade" id="submitModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content" style="background: rgba(12,18,38,.98); border:1px solid rgba(255,255,255,.10); color: var(--text);">
+        <div class="modal-header">
+          <h5 class="modal-title" id="submitModalLabel">Submeter evento</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="muted small mb-3">
+            Demo: salva localmente e também envia pro backend. Foto vira Base64 (máx 2MB).
+          </div>
+
+          <div id="submitError" class="alert alert-danger d-none"></div>
+          <div id="submitOk" class="alert alert-success d-none">Evento salvo! 🎉</div>
+
+          <div class="row g-2">
+            <div class="col-12 col-lg-7">
+              <label class="form-label muted mb-1">Título *</label>
+              <input id="evTitle" class="form-control" placeholder="Ex.: Festival Som do Norte" />
+            </div>
+            <div class="col-12 col-lg-5">
+              <label class="form-label muted mb-1">Data *</label>
+              <input id="evDate" type="date" class="form-control" />
+            </div>
+
+            <div class="col-12 col-lg-7">
+              <label class="form-label muted mb-1">Local *</label>
+              <input id="evPlace" class="form-control" placeholder="Ex.: Largo São Sebastião" />
+            </div>
+            <div class="col-12 col-lg-5">
+              <label class="form-label muted mb-1">Categoria *</label>
+              <select id="evType" class="form-select">
+                <option value="">Selecione</option>
+                <option value="Música">Música</option>
+                <option value="Teatro">Teatro</option>
+                <option value="Dança">Dança</option>
+                <option value="Poesia">Poesia</option>
+                <option value="Performance">Performance</option>
+                <option value="Cultura urbana">Cultura urbana</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label muted mb-1">Tags (separe por vírgula)</label>
+              <input id="evTags" class="form-control" placeholder="Ex.: rap, trap, independente" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label muted mb-1">Descrição</label>
+              <textarea id="evDesc" class="form-control" rows="3" placeholder="Detalhes (opcional)"></textarea>
+            </div>
+
+            <!-- ✅ NOVO: Acessibilidade e Libras -->
+            <div class="col-12">
+              <label class="form-label muted mb-1">Acessibilidade</label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="evAccessibility">
+                  <label class="form-check-label" for="evAccessibility">Espaço acessível (PCD)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="evLibras">
+                  <label class="form-check-label" for="evLibras">Intérprete/Tradução em Libras</label>
+                </div>
+              </div>
+              <div class="muted small mt-1">Se marcar, isso aparece no card do evento como selo.</div>
+            </div>
+
+            <div class="col-12 col-lg-7">
+              <label class="form-label muted mb-1">Link</label>
+              <input id="evLink" class="form-control" placeholder="https://..." />
+            </div>
+            <div class="col-12 col-lg-5">
+              <label class="form-label muted mb-1">Foto</label>
+              <input id="evPhoto" type="file" class="form-control" accept="image/*" />
+            </div>
+
+            <div class="col-12">
+              <div class="mt-2" id="photoPreview"
+                style="width:100%; aspect-ratio:16/9; border-radius:14px; border:1px solid rgba(255,255,255,.10);
+                background: rgba(255,255,255,.03); overflow:hidden; display:grid; place-items:center;">
+                <div class="muted small">Prévia da foto (opcional)</div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="divider"></div>
+              <div class="muted small">
+                Salvo em: <span class="mono">localStorage["submitted_events_v1"]</span> + backend <span class="mono">/api/events</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="btnResetForm" class="btn btn-soft">Limpar</button>
+          <button id="btnSaveEvent" class="btn btn-accent">Salvar evento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ================== CONFIG ==================
+    const API_BASE = "http://localhost:8000";
+    const API_QUERY_URL = `${API_BASE}/api/query`;
+    const API_EVENTS_URL = `${API_BASE}/api/events`;
+    const API_HEALTH_URL = `${API_BASE}/health`;
+
+    const SEED_EVENTS_URL = "data/events.json"; // opcional (pode não existir)
+
+    // ================== STORAGE ==================
+    const SUBMITTED_KEY = "submitted_events_v1";
+
+    // ================== ELEMENTS ==================
+    const apiStatus = document.getElementById("apiStatus");
+    const statusPill = document.getElementById("statusPill");
+    const errorBlock = document.getElementById("errorBlock");
+
+    const chatEl = document.getElementById("chat");
+    const queryInput = document.getElementById("queryInput");
+    const btnAsk = document.getElementById("btnAsk");
+    const btnAskText = document.getElementById("btnAskText");
+    const btnCopyLast = document.getElementById("btnCopyLast");
+    const btnClearChat = document.getElementById("btnClearChat");
+
+    const monthSelect = document.getElementById("monthSelect");
+    const typeSelect = document.getElementById("typeSelect");
+
+    // Pages
+    const pageAgent = document.getElementById("pageAgent");
+    const pageEvents = document.getElementById("pageEvents");
+
+    // Events page UI
+    const eventsSearch = document.getElementById("eventsSearch");
+    const eventsMonth = document.getElementById("eventsMonth");
+    const eventsType = document.getElementById("eventsType");
+    const eventsCount = document.getElementById("eventsCount");
+    const eventsEmpty = document.getElementById("eventsEmpty");
+    const eventsGrid = document.getElementById("eventsGrid");
+    const btnExportJson = document.getElementById("btnExportJson");
+    const btnClearSubmitted = document.getElementById("btnClearSubmitted");
+
+    // Modal fields
+    const submitError = document.getElementById("submitError");
+    const submitOk = document.getElementById("submitOk");
+    const evTitle = document.getElementById("evTitle");
+    const evDate = document.getElementById("evDate");
+    const evPlace = document.getElementById("evPlace");
+    const evType = document.getElementById("evType");
+    const evTags = document.getElementById("evTags");
+    const evDesc = document.getElementById("evDesc");
+    const evLink = document.getElementById("evLink");
+    const evPhoto = document.getElementById("evPhoto");
+    const photoPreview = document.getElementById("photoPreview");
+    const btnSaveEvent = document.getElementById("btnSaveEvent");
+    const btnResetForm = document.getElementById("btnResetForm");
+
+    // ✅ NOVO: checkboxes
+    const evAccessibility = document.getElementById("evAccessibility");
+    const evLibras = document.getElementById("evLibras");
+
+    // ================== STATE ==================
+    let seedEvents = [];
+    let submittedEvents = [];
+    let photoBase64 = "";
+
+    // ================== UTIL ==================
+    function escapeHtml(str) {
+      return (str || "").replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[m]));
+    }
+    function nowTime() {
+      const d = new Date();
+      return d.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+    }
+    function setLoading(isLoading) {
+      btnAsk.disabled = isLoading;
+      btnAskText.textContent = isLoading ? "Enviando..." : "Enviar";
+      statusPill.textContent = isLoading ? "Consultando..." : "Pronto";
+    }
+    function showError(msg) {
+      errorBlock.textContent = msg;
+      errorBlock.classList.remove("d-none");
+    }
+    function clearError() {
+      errorBlock.classList.add("d-none");
+      errorBlock.textContent = "";
+    }
+
+    // ================== NAV (SPA) ==================
+    function setPage(name) {
+      if (name === "agent") {
+        pageAgent.classList.remove("d-none");
+        pageEvents.classList.add("d-none");
+        pageAgent.scrollIntoView({behavior:"smooth"});
+      } else {
+        pageAgent.classList.add("d-none");
+        pageEvents.classList.remove("d-none");
+        renderEventsFeed();
+        pageEvents.scrollIntoView({behavior:"smooth"});
+      }
+    }
+
+    document.querySelectorAll("[data-nav]").forEach(el => {
+      el.addEventListener("click", () => {
+        const v = el.getAttribute("data-nav");
+        setPage(v);
+        const offcanvasEl = document.getElementById("menuCanvas");
+        const off = bootstrap.Offcanvas.getInstance(offcanvasEl);
+        if (off) off.hide();
+      });
+    });
+
+    // ================== SHARE ==================
+    function formatDateBR(iso) {
+      if (!iso) return "";
+      const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (!m) return iso;
+      return `${m[3]}/${m[2]}/${m[1]}`;
+    }
+
+    function shareEvent(ev){
+      const acc = ev.accessibility ? "♿ Acessível" : "";
+      const lib = ev.libras ? "🤟 Libras" : "";
+      const extra = [acc, lib].filter(Boolean).join(" • ");
+
+      const text =
+`🎭 ${ev.title}
+📅 ${formatDateBR(ev.date)}
+📍 ${ev.place}
+🏷️ ${ev.type}${extra ? "\n" + extra : ""}${(ev.tags && ev.tags.length) ? "\n#" + ev.tags.join(" #") : ""}${ev.description ? "\n\n" + ev.description : ""}${ev.link ? "\n\nMais info: " + ev.link : ""}`;
+
+      const url = ev.link || window.location.href;
+
+      if (navigator.share) {
+        navigator.share({ title: ev.title, text, url }).catch(() => {});
+        return;
+      }
+
+      const wa = `https://wa.me/?text=${encodeURIComponent(text + "\n\n" + url)}`;
+      window.open(wa, "_blank", "noopener");
+    }
+
+    // ================== CHAT UI ==================
+    function scrollChatToBottom() {
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function addMessage(role, text, meta = "") {
+      const wrap = document.createElement("div");
+      wrap.className = "msg";
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar " + (role === "agent" ? "agent" : "");
+      avatar.textContent = role === "agent" ? "AC" : "Você";
+
+      const content = document.createElement("div");
+      const bubble = document.createElement("div");
+      bubble.className = "bubble " + (role === "user" ? "user" : "");
+      bubble.innerHTML = escapeHtml(text);
+
+      const metaEl = document.createElement("div");
+      metaEl.className = "meta";
+      metaEl.textContent = meta || nowTime();
+
+      content.appendChild(bubble);
+      content.appendChild(metaEl);
+
+      wrap.appendChild(avatar);
+      wrap.appendChild(content);
+
+      chatEl.appendChild(wrap);
+      scrollChatToBottom();
+      return wrap;
+    }
+
+    function addTyping() {
+      const wrap = document.createElement("div");
+      wrap.className = "msg";
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar agent";
+      avatar.textContent = "AC";
+
+      const content = document.createElement("div");
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.innerHTML = `
+        <span class="typing">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </span>
+      `;
+      const metaEl = document.createElement("div");
+      metaEl.className = "meta";
+      metaEl.textContent = "digitando…";
+
+      content.appendChild(bubble);
+      content.appendChild(metaEl);
+
+      wrap.appendChild(avatar);
+      wrap.appendChild(content);
+
+      chatEl.appendChild(wrap);
+      scrollChatToBottom();
+      return wrap;
+    }
+
+    // ================== EVENTS DATA ==================
+    function parseTags(s) {
+      return (s || "").split(",").map(x => x.trim()).filter(Boolean);
+    }
+    function allEvents() {
+      return [...seedEvents, ...submittedEvents]
+        .filter(e => e && e.title && e.date && e.place && e.type);
+    }
+
+    // ================== EVENTS FEED RENDER ==================
+    function renderEventsFeed() {
+      const q = (eventsSearch.value || "").toLowerCase().trim();
+      const m = eventsMonth.value; // "02"
+      const t = eventsType.value;  // "Música"
+
+      let list = allEvents();
+
+      if (m) list = list.filter(e => (e.date || "").includes(`-${m}-`));
+      if (t) list = list.filter(e => (e.type || "") === t);
+
+      if (q) {
+        list = list.filter(e => {
+          const hay = [
+            e.title, e.date, e.place, e.type,
+            ...(e.tags || []),
+            e.description || "",
+            e.link || "",
+            e.accessibility ? "acessivel acessível pcd" : "",
+            e.libras ? "libras libra intérprete interprete" : ""
+          ].join(" ").toLowerCase();
+          return hay.includes(q);
+        });
+      }
+
+      list.sort((a,b) => (a.date || "").localeCompare(b.date || ""));
+
+      eventsCount.textContent = String(list.length);
+      eventsGrid.innerHTML = "";
+
+      if (!list.length) {
+        eventsEmpty.classList.remove("d-none");
+        return;
+      }
+      eventsEmpty.classList.add("d-none");
+
+      list.forEach(ev => {
+        const canDelete = String(ev.id || "").startsWith("sub_");
+
+        const card = document.createElement("div");
+        card.className = "event-card";
+
+        const cover = document.createElement("div");
+        cover.className = "event-cover";
+        if (ev.image) cover.innerHTML = `<img src="${ev.image}" alt="foto">`;
+        else cover.innerHTML = `<div class="muted small">sem foto</div>`;
+
+        const body = document.createElement("div");
+        body.className = "event-body";
+        body.innerHTML = `
+          <div class="event-sub">
+            <span class="pill">📅 ${escapeHtml(formatDateBR(ev.date))}</span>
+            <span class="pill">📍 ${escapeHtml(ev.place)}</span>
+          </div>
+          <h3 class="event-title">${escapeHtml(ev.title)}</h3>
+          <div class="event-sub">
+            <span class="pill">🎭 ${escapeHtml(ev.type)}</span>
+            ${(ev.tags || []).slice(0,3).map(tg => `<span class="pill">#${escapeHtml(tg)}</span>`).join("")}
+            ${(ev.tags || []).length > 3 ? `<span class="pill">+${ev.tags.length-3}</span>` : ``}
+            ${ev.accessibility ? `<span class="pill">♿ Acessível</span>` : ``}
+            ${ev.libras ? `<span class="pill">🤟 Libras</span>` : ``}
+          </div>
+          ${ev.description ? `<p class="event-desc">${escapeHtml(ev.description).slice(0, 120)}${ev.description.length>120 ? "…" : ""}</p>`
+                           : `<p class="event-desc">Sem descrição. (Você pode adicionar no formulário.)</p>`}
+        `;
+
+        const footer = document.createElement("div");
+        footer.className = "event-footer";
+
+        const left = document.createElement("div");
+        left.className = "muted mini";
+        left.textContent = canDelete ? "Submetido" : "Base";
+
+        const actions = document.createElement("div");
+        actions.className = "event-actions";
+
+        const btnShare = document.createElement("button");
+        btnShare.className = "btn btn-soft btn-sm";
+        btnShare.textContent = "Compartilhar";
+        btnShare.onclick = (e) => {
+          e.stopPropagation();
+          shareEvent(ev);
+        };
+
+        const btnAskCard = document.createElement("button");
+        btnAskCard.className = "btn btn-soft btn-sm";
+        btnAskCard.textContent = "Perguntar";
+        btnAskCard.onclick = (e) => {
+          e.stopPropagation();
+          setPage("agent");
+          const acc = ev.accessibility ? " (tem acessibilidade)" : "";
+          const lib = ev.libras ? " (tem Libras)" : "";
+          queryInput.value = `Quero ir no evento "${ev.title}". Me diga data, local, categoria${acc}${lib} e uma sugestão de como aproveitar.`;
+          queryInput.focus();
+        };
+
+        const btnOpen = document.createElement("a");
+        btnOpen.className = "btn btn-soft btn-sm";
+        btnOpen.textContent = "Abrir";
+        if (ev.link) {
+          btnOpen.href = ev.link; btnOpen.target = "_blank"; btnOpen.rel = "noopener";
+        } else {
+          btnOpen.href = "#";
+          btnOpen.onclick = (e) => { e.preventDefault(); e.stopPropagation(); };
+          btnOpen.style.opacity = ".6";
+          btnOpen.title = "Sem link";
+        }
+
+        actions.appendChild(btnShare);
+        actions.appendChild(btnAskCard);
+        actions.appendChild(btnOpen);
+
+        if (canDelete) {
+          const btnDel = document.createElement("button");
+          btnDel.className = "btn btn-soft btn-sm";
+          btnDel.textContent = "Excluir";
+          btnDel.onclick = (e) => {
+            e.stopPropagation();
+            if (!confirm("Excluir este evento submetido?")) return;
+            submittedEvents = submittedEvents.filter(x => x.id !== ev.id);
+            localStorage.setItem(SUBMITTED_KEY, JSON.stringify(submittedEvents));
+            renderEventsFeed();
+          };
+          actions.appendChild(btnDel);
+        }
+
+        footer.appendChild(left);
+        footer.appendChild(actions);
+
+        card.appendChild(cover);
+        card.appendChild(body);
+        card.appendChild(footer);
+
+        card.onclick = () => {
+          setPage("agent");
+          queryInput.value = `Me conte mais sobre o evento "${ev.title}" e sugira outros parecidos no mesmo mês.`;
+          queryInput.focus();
+        };
+
+        eventsGrid.appendChild(card);
+      });
+    }
+
+    // ================== OFFLINE RETRIEVAL (fallback) ==================
+    function normalize(s) {
+      return (s || "").toLowerCase().replace(/[^\w\sáéíóúãõç-]/g, " ").replace(/\s+/g, " ").trim();
+    }
+    function scoreEvent(query, ev) {
+      const q = normalize(query);
+      const hay = normalize([
+        ev.title, ev.place, ev.type,
+        (ev.tags||[]).join(" "),
+        ev.date,
+        ev.description||"",
+        ev.accessibility ? "acessivel acessível pcd" : "",
+        ev.libras ? "libras intérprete interprete" : ""
+      ].join(" "));
+      let score = 0;
+      q.split(" ").forEach(term => { if (term && hay.includes(term)) score += 2; });
+      return score;
+    }
+    function retrieveLocal(query, k=6) {
+      const list = allEvents();
+      const ranked = [...list].sort((a,b) => scoreEvent(query,b) - scoreEvent(query,a));
+      const filtered = ranked.filter(e => scoreEvent(query,e) > 0);
+      return (filtered.length ? filtered : ranked).slice(0,k);
+    }
+    function answerLocal(query) {
+      const r = retrieveLocal(query, 8);
+      if (!r.length) return { answer: "Não encontrei eventos na base local.", sources: [] };
+
+      const lines = r.slice(0,6).map(e => {
+        const extras = [
+          e.accessibility ? "♿" : "",
+          e.libras ? "🤟" : ""
+        ].filter(Boolean).join("");
+        return `• ${e.title} — ${formatDateBR(e.date)} — ${e.place} — ${e.type}${extras ? " — " + extras : ""}`;
+      });
+
+      const answer = `Encontrei estes eventos relacionados:\n\n${lines.join("\n")}\n\nSe quiser, diga o estilo ou o local pra eu refinar.`;
+      return { answer, sources: r.slice(0,6).map(e=>e.title) };
+    }
+
+    // ================== API ==================
+    async function pingApi() {
+      try {
+        const res = await fetch(API_HEALTH_URL, { cache: "no-store" });
+        if (res.ok) { apiStatus.textContent = "API: ON"; return true; }
+      } catch {}
+      apiStatus.textContent = "API: OFF";
+      return false;
+    }
+
+    async function askApi(query) {
+      const res = await fetch(API_QUERY_URL, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ query })
+      });
+      if (!res.ok) {
+        const t = await res.text().catch(()=> "");
+        throw new Error(`Erro ${res.status}: ${t || res.statusText}`);
+      }
+      return await res.json();
+    }
+
+    async function submitEventToBackend(newEvNoId) {
+      try {
+        const res = await fetch(API_EVENTS_URL, {
+          method: "POST",
+          headers: { "Content-Type":"application/json" },
+          body: JSON.stringify(newEvNoId),
+        });
+        if (!res.ok) {
+          const t = await res.text().catch(()=> "");
+          console.warn("Falha ao enviar /api/events:", res.status, t || res.statusText);
+          return false;
+        }
+        return true;
+      } catch (e) {
+        console.warn("Backend offline ao enviar /api/events:", e);
+        return false;
+      }
+    }
+
+    function buildQueryWithFilters(base) {
+      const month = monthSelect.value;
+      const type = typeSelect.value;
+      const parts = [];
+      if (base) parts.push(base);
+      if (month) parts.push(`em ${month}`);
+      if (type) parts.push(`categoria ${type}`);
+      return parts.join(" ").trim();
+    }
+
+    async function sendQuery(qRaw) {
+      const q = buildQueryWithFilters((qRaw || "").trim());
+      if (!q) return;
+
+      clearError();
+      addMessage("user", q);
+      setLoading(true);
+      const typingEl = addTyping();
+
+      try {
+        let data;
+        const apiOn = await pingApi();
+        if (apiOn) data = await askApi(q);
+        else data = answerLocal(q);
+
+        typingEl.remove();
+
+        const answer = (data.answer || "").trim();
+        const sources = Array.isArray(data.sources) ? data.sources : [];
+        const sourcesText = sources.length ? `\n\nFontes: ${sources.join(", ")}` : "";
+
+        addMessage("agent", answer + sourcesText);
+
+      } catch (err) {
+        typingEl.remove();
+        showError(err.message || "Falha ao consultar.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // ================== SUBMIT (localStorage + backend) ==================
+    function loadSubmitted() {
+      try {
+        submittedEvents = JSON.parse(localStorage.getItem(SUBMITTED_KEY) || "[]");
+        if (!Array.isArray(submittedEvents)) submittedEvents = [];
+      } catch { submittedEvents = []; }
+    }
+    function saveSubmitted() {
+      localStorage.setItem(SUBMITTED_KEY, JSON.stringify(submittedEvents));
+    }
+
+    function hashToInt(str) {
+      let h = 0;
+      for (let i = 0; i < (str || "").length; i++) {
+        h = ((h << 5) - h) + str.charCodeAt(i);
+        h |= 0;
+      }
+      return Math.abs(h);
+    }
+
+    function assignDefaultImage(ev) {
+      const n = 7;
+      const h = hashToInt(ev.title || ev.place || ev.type || "evento");
+      const idx = (h % n) + 1;
+      return `images/${idx}.jpg`;
+    }
+
+    async function loadSeedEvents() {
+      try {
+        const res = await fetch(SEED_EVENTS_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error("seed not found");
+
+        const data = await res.json();
+        seedEvents = Array.isArray(data) ? data : [];
+
+        seedEvents = seedEvents.map(ev => ({
+          accessibility: !!ev.accessibility,
+          libras: !!ev.libras,
+          ...ev,
+          image: (ev.image && String(ev.image).trim()) ? ev.image : assignDefaultImage(ev),
+        }));
+
+      } catch {
+        seedEvents = [];
+      }
+    }
+
+    function resetSubmitAlerts() {
+      submitError.classList.add("d-none");
+      submitError.textContent = "";
+      submitOk.classList.add("d-none");
+    }
+    function showSubmitError(msg) {
+      submitError.textContent = msg;
+      submitError.classList.remove("d-none");
+      submitOk.classList.add("d-none");
+    }
+    function showSubmitOk(msg = "Evento salvo! 🎉") {
+      submitOk.textContent = msg;
+      submitOk.classList.remove("d-none");
+      submitError.classList.add("d-none");
+    }
+    function resetForm() {
+      evTitle.value = "";
+      evDate.value = "";
+      evPlace.value = "";
+      evType.value = "";
+      evTags.value = "";
+      evDesc.value = "";
+      evLink.value = "";
+      evPhoto.value = "";
+      photoBase64 = "";
+
+      // ✅ NOVO: reset checkboxes
+      evAccessibility.checked = false;
+      evLibras.checked = false;
+
+      photoPreview.innerHTML = `<div class="muted small">Prévia da foto (opcional)</div>`;
+      resetSubmitAlerts();
+    }
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ""));
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    evPhoto.addEventListener("change", async () => {
+      resetSubmitAlerts();
+      const f = evPhoto.files && evPhoto.files[0];
+      if (!f) return;
+      if (f.size > 2_000_000) {
+        showSubmitError("A foto está grande demais para a demo (máx 2MB).");
+        evPhoto.value = "";
+        return;
+      }
+      try {
+        photoBase64 = await fileToBase64(f);
+        photoPreview.innerHTML = `<img src="${photoBase64}" alt="prévia" style="width:100%;height:100%;object-fit:cover;display:block;">`;
+      } catch { showSubmitError("Não consegui ler a imagem. Tente outra."); }
+    });
+
+    btnResetForm.addEventListener("click", resetForm);
+
+    btnSaveEvent.addEventListener("click", async () => {
+      resetSubmitAlerts();
+
+      const title = evTitle.value.trim();
+      const date = evDate.value.trim();
+      const place = evPlace.value.trim();
+      const type = evType.value.trim();
+      const tags = parseTags(evTags.value);
+      const description = evDesc.value.trim();
+      const link = evLink.value.trim();
+
+      // ✅ NOVO
+      const accessibility = !!evAccessibility.checked;
+      const libras = !!evLibras.checked;
+
+      if (!title || !date || !place || !type) {
+        showSubmitError("Preencha Título, Data, Local e Categoria.");
+        return;
+      }
+
+      const image = (photoBase64 || "").trim()
+        ? photoBase64
+        : assignDefaultImage({ title, place, type });
+
+      const newEvLocal = {
+        id: "sub_" + Date.now(),
+        title, date, place, type,
+        tags, description, link,
+        image,
+        accessibility,
+        libras
+      };
+
+      submittedEvents.unshift(newEvLocal);
+      saveSubmitted();
+
+      const newEvForBackend = { title, date, place, type, tags, description, link, image, accessibility, libras };
+      const sent = await submitEventToBackend(newEvForBackend);
+
+      showSubmitOk(sent
+        ? "Evento salvo e enviado para a IA! 🎉"
+        : "Evento salvo localmente (backend OFF). ✅"
+      );
+
+      addMessage("agent", `Evento salvo! Quer que eu crie um texto de divulgação para "${title}"?`);
+
+      if (!pageEvents.classList.contains("d-none")) renderEventsFeed();
+    });
+
+    // ================== EXPORT / CLEAR SUBMITTED ==================
+    btnExportJson.addEventListener("click", () => {
+      const data = allEvents();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "eventos_export.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    btnClearSubmitted.addEventListener("click", () => {
+      if (!confirm("Tem certeza que quer apagar todos os eventos submetidos?")) return;
+      submittedEvents = [];
+      saveSubmitted();
+      renderEventsFeed();
+    });
+
+    eventsSearch?.addEventListener("input", renderEventsFeed);
+    eventsMonth?.addEventListener("change", renderEventsFeed);
+    eventsType?.addEventListener("change", renderEventsFeed);
+
+    // ================== CHAT HANDLERS ==================
+    btnAsk.addEventListener("click", () => {
+      const q = queryInput.value;
+      queryInput.value = "";
+      sendQuery(q);
+    });
+
+    queryInput.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") btnAsk.click();
+    });
+
+    btnCopyLast.addEventListener("click", async () => {
+      const bubbles = Array.from(document.querySelectorAll(".bubble"));
+      const last = bubbles.length ? bubbles[bubbles.length - 1].textContent : "";
+      if (!last) return;
+      try {
+        await navigator.clipboard.writeText(last);
+        statusPill.textContent = "Copiado ✅";
+        setTimeout(() => statusPill.textContent = "Pronto", 900);
+      } catch {
+        statusPill.textContent = "Falhou";
+        setTimeout(() => statusPill.textContent = "Pronto", 900);
+      }
+    });
+
+    btnClearChat.addEventListener("click", () => {
+      chatEl.innerHTML = "";
+      addMessage("agent",
+        "Oi! Eu sou seu Agente Cultural. Me diga o mês, o lugar ou o estilo (rap, teatro, dança) e eu monto uma agenda pra você 😊",
+        "agora"
+      );
+    });
+
+    document.querySelectorAll(".chip").forEach(ch => {
+      ch.addEventListener("click", () => {
+        const q = ch.getAttribute("data-q") || ch.textContent || "";
+        sendQuery(q);
+      });
+    });
+
+    // ================== INIT ==================
+    (async function init(){
+      loadSubmitted();
+      await loadSeedEvents();
+      await pingApi();
+
+      addMessage("agent",
+        "Oi! Eu sou seu Agente Cultural. Me diga o mês, o lugar ou o estilo (rap, teatro, dança) e eu monto uma agenda pra você 😊",
+        "agora"
+      );
+
+      if (apiStatus.textContent.includes("OFF")) {
+        addMessage("agent", "Estou em modo offline (sem backend). Ainda consigo buscar na base local e nos eventos submetidos aqui 😊");
+      }
+
+      setPage("agent");
+    })();
+  </script>
+</body>
+</html>

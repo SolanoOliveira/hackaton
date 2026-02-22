@@ -1,0 +1,202 @@
+[
+  {
+    "title": "Vozes da Beira-Rio",
+    "date": "2026-01-18",
+    "place": "Largo São Sebastião",
+    "type": "Música",
+    "tags": ["MPB", "independente", "autoral", "voz e violão", "centro"],
+    "description": "Roda musical com artistas autorais da cena manauara, em formato intimista. Repertório de MPB independente com participações surpresa e microfone aberto no final.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Ritmo da Quebrada Festival",
+    "date": "2026-02-07",
+    "place": "Complexo da Ponta Negra",
+    "type": "Música",
+    "tags": ["Rap", "Trap", "batalha de rima", "DJ set", "cultura urbana"],
+    "description": "Festival de rap e trap com shows curtos, DJs e batalhas de rima. Espaço para artistas locais, cyphers e uma área de convivência com produtores independentes.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Mostra Corpo em Movimento",
+    "date": "2026-02-21",
+    "place": "Teatro da Instalação",
+    "type": "Dança",
+    "tags": ["contemporânea", "mostra", "coreografia", "experimental", "palco"],
+    "description": "Mostra de dança contemporânea com coreografias autorais e experimentais. Programação com duas sessões e conversa com artistas após o espetáculo.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Slam Amazônia Livre",
+    "date": "2026-03-14",
+    "place": "Centro Cultural Palácio da Justiça",
+    "type": "Poesia",
+    "tags": ["slam", "poesia falada", "performance", "microfone aberto", "autoral"],
+    "description": "Encontro de poesia falada e performance com rodada competitiva e espaço aberto para novos slammers. Temática voltada a território, identidade e vivências amazônicas.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Festival Som do Norte",
+    "date": "2026-03-28",
+    "place": "Centro Cultural Povos da Amazônia",
+    "type": "Música",
+    "tags": ["Rock", "alternativo", "indie", "bandas autorais", "festival"],
+    "description": "Festival de rock alternativo e indie com bandas autorais do Norte. Line-up com shows em sequência e um mini-mercado criativo com zines e merch.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Cena Urbana 2026",
+    "date": "2026-04-11",
+    "place": "Teatro Amazonas (Hall)",
+    "type": "Teatro",
+    "tags": ["experimental", "cena urbana", "curtas", "performance", "intervenção"],
+    "description": "Mostra de teatro experimental e intervenções rápidas no hall do Teatro Amazonas. Obras curtas com interação com o público e linguagem urbana contemporânea.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Encontro de Batalhas de Breaking",
+    "date": "2026-04-25",
+    "place": "Praça da Saudade",
+    "type": "Dança",
+    "tags": ["Breaking", "batalha", "hip hop", "DJ", "cypher"],
+    "description": "Batalhas de breaking em formato cypher, com DJs e jurados convidados. Aberto para iniciantes e avançados, com premiação simbólica e roda final coletiva.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Festival Voz & Violão Independente",
+    "date": "2026-05-09",
+    "place": "Largo de São Sebastião",
+    "type": "Música",
+    "tags": ["acústica", "voz e violão", "autoral", "MPB", "independente"],
+    "description": "Festival acústico com voz e violão, canções autorais e releituras. Clima de praça, repertório leve e espaço para colaborações entre artistas.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Mostra Teatro de Resistência",
+    "date": "2026-05-23",
+    "place": "Teatro Gebes Medeiros",
+    "type": "Teatro",
+    "tags": ["resistência", "dramaturgia", "social", "coletivo", "cena local"],
+    "description": "Mostra de teatro com foco em narrativas de resistência e temas sociais. Após as apresentações, haverá debate com coletivos e convidados da cena local.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Baile Amazônico Alternativo",
+    "date": "2026-06-13",
+    "place": "Centro Cultural dos Povos da Amazônia",
+    "type": "Música",
+    "tags": ["Pop", "independente", "DJ", "dance", "noite"],
+    "description": "Noite dançante com DJs e artistas pop independentes, misturando beats contemporâneos e referências regionais. Setlist pensado para pista e celebração.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Festival Dança da Floresta",
+    "date": "2026-06-27",
+    "place": "Teatro da Instalação",
+    "type": "Dança",
+    "tags": ["contemporânea", "natureza", "corpo", "poético", "mostra"],
+    "description": "Festival de dança contemporânea com peças inspiradas em floresta, cidade e memória. Inclui workshop rápido antes da sessão principal (vagas limitadas).",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Noite das Bandas Autorais",
+    "date": "2026-07-18",
+    "place": "Curupira Mãe do Mato",
+    "type": "Música",
+    "tags": ["Indie", "Rock", "autoral", "show", "underground"],
+    "description": "Noite dedicada a bandas autorais indie/rock em clima underground. Sets de 30–40 min por banda e sessão final colaborativa com jams.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Festival Arte de Rua Manaus",
+    "date": "2026-08-08",
+    "place": "Praça do Congresso",
+    "type": "Cultura urbana",
+    "tags": ["Rap", "Graffiti", "Breaking", "DJ", "arte de rua"],
+    "description": "Festival de cultura urbana com palco de rap, batalhas de breaking e área de graffiti ao vivo. Programação contínua e espaço para artistas independentes.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Mostra Cênica Independente",
+    "date": "2026-08-22",
+    "place": "Teatro Gebes Medeiros",
+    "type": "Teatro",
+    "tags": ["independente", "cenas curtas", "dramaturgia", "autoral", "mostra"],
+    "description": "Mostra de cenas curtas e dramaturgia independente. Várias peças na mesma noite, com intervalo e votação do público para destaque da edição.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Festival Vozes Femininas da Amazônia",
+    "date": "2026-09-12",
+    "place": "Largo São Sebastião",
+    "type": "Música",
+    "tags": ["MPB", "Pop", "mulheres", "autoral", "independente"],
+    "description": "Festival com artistas mulheres da Amazônia, com repertório de MPB e pop autoral. Participações especiais e mensagens sobre criação, território e identidade.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Encontro de Dança Urbana Norte",
+    "date": "2026-09-26",
+    "place": "Centro Cultural Povos da Amazônia",
+    "type": "Dança",
+    "tags": ["urbana", "hip hop", "workshop", "battle", "crew"],
+    "description": "Encontro de dança urbana com workshops rápidos e batalhas entre crews. Aberto ao público, com momentos de cypher e apresentação de grupos convidados.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Festival Amazônia Instrumental",
+    "date": "2026-10-10",
+    "place": "Teatro Amazonas (Hall)",
+    "type": "Música",
+    "tags": ["instrumental", "jazz", "fusion", "improviso", "concerto"],
+    "description": "Noite de música instrumental com grupos em formato concerto no hall. Repertório com improviso e fusões entre ritmos contemporâneos e referências amazônicas.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Mostra Experimental de Performance",
+    "date": "2026-10-24",
+    "place": "Palácio Rio Negro",
+    "type": "Performance",
+    "tags": ["experimental", "arte contemporânea", "site-specific", "intervenção", "corpo"],
+    "description": "Mostra de performance artística em formato site-specific, explorando corpo, espaço e memória. Percurso com ações em diferentes áreas do Palácio Rio Negro.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Festival Teatro de Rua Manaus",
+    "date": "2026-11-14",
+    "place": "Praça da Matriz",
+    "type": "Teatro",
+    "tags": ["rua", "intervenção", "família", "cortejo", "popular"],
+    "description": "Festival de teatro de rua com cortejo e apresentações populares. Programação para todas as idades, com interação e ocupação artística do espaço público.",
+    "link": "",
+    "image": ""
+  },
+  {
+    "title": "Encerramento Independente 2026",
+    "date": "2026-12-12",
+    "place": "Ponta Negra (Anfiteatro)",
+    "type": "Música",
+    "tags": ["multigênero", "festival", "independente", "retrospectiva", "show"],
+    "description": "Festival de encerramento do ano com atrações multigênero da cena independente. Clima de retrospectiva, participações especiais e celebração coletiva.",
+    "link": "",
+    "image": ""
+  }
+]
